@@ -1,11 +1,3 @@
-"""Project for fastapi education"""
-
-"""Вторая строка комментария"""
-
-"""Третья строка комментария"""
-
-"""Четвертая строка комментария для третьей ветки"""
-
 from fastapi import FastAPI, Query
 import uvicorn
 from pydantic import BaseModel
@@ -81,7 +73,7 @@ async def add_booking(booking: SBooking):
     pass
 
 
-# if __name__ == "__main__":
-#     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
 
 # uvicorn app.main:app --reload
