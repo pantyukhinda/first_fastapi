@@ -3,12 +3,12 @@ import uvicorn
 from pydantic import BaseModel
 from typing import Optional
 from datetime import date
-
 from app.bookings.router import router as router_bookings
 
-app = FastAPI()
 
-app.include_router(router_bookings)
+application = FastAPI()
+
+application.include_router(router_bookings)
 
 
 class SBooking(BaseModel):
@@ -39,17 +39,17 @@ class SHotelsSearchArgs:
         self.stars = stars
 
 
-@app.get("/")
+@application.get("/")
 async def root():
     return {"message": "Hello, world!"}
 
 
-@app.get("/hotels/{hotel_id}")
+@application.get("/hotels/{hotel_id}")
 async def get_hotel(hotel_id: int, date_from, date_to):
     return {"hotel_id": hotel_id, "date_from": date_from, "date_to": date_to}
 
 
-@app.get("/hotels")
+@application.get("/hotels")
 async def get_hotels(
     location: str,
     date_from: date,
@@ -68,12 +68,12 @@ async def get_hotels(
     return hotels
 
 
-@app.post("/bookings")
+@application.post("/bookings")
 async def add_booking(booking: SBooking):
     pass
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("main:application", host="127.0.0.1", port=8000, reload=True)
 
-# uvicorn app.main:app --reload
+# uvicorn app.main:application --reload
