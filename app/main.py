@@ -1,8 +1,13 @@
+from posixpath import abspath, dirname
+import sys
 from fastapi import FastAPI, Query
 import uvicorn
 from pydantic import BaseModel
 from typing import Optional
 from datetime import date
+
+sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
+
 from app.bookings.router import router as router_bookings
 
 
@@ -73,7 +78,7 @@ async def add_booking(booking: SBooking):
     pass
 
 
-if __name__ == "__main__":
-    uvicorn.run("main:application", host="127.0.0.1", port=8000, reload=True)
+# if __name__ == "__main__":
+#     uvicorn.run("app.main:application", host="127.0.0.1", port=8000, reload=True)
 
 # uvicorn app.main:application --reload
