@@ -9,10 +9,12 @@ from datetime import date
 sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
 
 from app.bookings.router import router as router_bookings
+from app.users.router import router as router_users
 
 
 application = FastAPI()
 
+application.include_router(router_users)
 application.include_router(router_bookings)
 
 
