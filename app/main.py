@@ -10,18 +10,14 @@ sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
 
 from app.bookings.router import router as router_bookings
 from app.users.router import router as router_users
+from app.hotels.router import router as router_hotels
 
 
 application = FastAPI()
 
 application.include_router(router_users)
 application.include_router(router_bookings)
-
-
-class SBooking(BaseModel):
-    room_id: int
-    date_from: date
-    date_to: date
+application.include_router(router_hotels)
 
 
 class SHotel(BaseModel):
@@ -51,33 +47,28 @@ async def root():
     return {"message": "Hello, world!"}
 
 
-@application.get("/hotels/{hotel_id}")
-async def get_hotel(hotel_id: int, date_from, date_to):
-    return {"hotel_id": hotel_id, "date_from": date_from, "date_to": date_to}
+# @application.get("/hotels/{hotel_id}")
+# async def get_hotel(hotel_id: int, date_from, date_to):
+#     return {"hotel_id": hotel_id, "date_from": date_from, "date_to": date_to}
 
 
-@application.get("/hotels")
-async def get_hotels(
-    location: str,
-    date_from: date,
-    date_to: date,
-    has_spa: Optional[bool] = None,
-    stars: Optional[int] = Query(None, ge=1, le=5),
-) -> list[SHotel]:
-    hotels = [
-        {
-            "address": "ул. Гагарина, 1, Алтай",
-            "name": "Super Hotel",
-            "stars": 5,
-        }
-    ]
+# @application.get("/hotels")
+# async def get_hotels(
+#     location: str,
+#     date_from: date,
+#     date_to: date,
+#     has_spa: Optional[bool] = None,
+#     stars: Optional[int] = Query(None, ge=1, le=5),
+# ) -> list[SHotel]:
+#     hotels = [
+#         {
+#             "address": "ул. Гагарина, 1, Алтай",
+#             "name": "Super Hotel",
+#             "stars": 5,
+#         }
+#     ]
 
-    return hotels
-
-
-@application.post("/bookings")
-async def add_booking(booking: SBooking):
-    pass
+#     return hotels
 
 
 # if __name__ == "__main__":

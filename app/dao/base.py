@@ -1,5 +1,4 @@
 from app.database import async_session_maker
-from app.bookings.models import Bookings
 from sqlalchemy import insert, select
 
 
