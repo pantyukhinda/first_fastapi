@@ -46,3 +46,18 @@ class RoomCannotBeBookedException(BookingException):
 class NoHotelsAvailableException(BookingException):
     status_code = status.HTTP_409_CONFLICT
     detail = "Не осталось свободных отелей"
+
+
+class NoSuchHotelException(BookingException):
+    status_code = status.HTTP_409_CONFLICT
+    detail = "Такой отель не обнаружен"
+
+
+class NoRoomsAvailableException(BookingException):
+    status_code = status.HTTP_409_CONFLICT
+    detail = "Не осталось свободных номеров"
+
+
+class BookingCannotBeDeletedException(BookingException):
+    status_code = status.HTTP_409_CONFLICT
+    detail = "Такой букинг не обнаружен"

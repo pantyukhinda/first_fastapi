@@ -10,7 +10,9 @@ sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
 
 from app.bookings.router import router as router_bookings
 from app.users.router import router as router_users
+
 from app.hotels.router import router as router_hotels
+from app.hotels.rooms.router import router as router_rooms
 
 
 application = FastAPI()
@@ -18,6 +20,7 @@ application = FastAPI()
 application.include_router(router_users)
 application.include_router(router_bookings)
 application.include_router(router_hotels)
+application.include_router(router_rooms)
 
 
 class SHotel(BaseModel):
