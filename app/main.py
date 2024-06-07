@@ -5,22 +5,28 @@ import uvicorn
 from pydantic import BaseModel
 from typing import Optional
 from datetime import date
+from fastapi.staticfiles import StaticFiles
 
 sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
 
 from app.bookings.router import router as router_bookings
 from app.users.router import router as router_users
-
+from app.pages.router import router as router_pages
 from app.hotels.router import router as router_hotels
 from app.hotels.rooms.router import router as router_rooms
+from app.images.router import router as router_images
 
 
 application = FastAPI()
+
+application.mount("/static", StaticFiles(directory="app/static"), "static")
 
 application.include_router(router_users)
 application.include_router(router_bookings)
 application.include_router(router_hotels)
 application.include_router(router_rooms)
+application.include_router(router_pages)
+application.include_router(router_images)
 
 
 class SHotel(BaseModel):
