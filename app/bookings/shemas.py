@@ -23,6 +23,9 @@ class SBookingAdd(BaseModel):
     date_from: date
     date_to: date
 
+    # class Config:
+    #     from_attributes = True
+
     class Config:
         orm_mode = True
 

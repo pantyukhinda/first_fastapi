@@ -25,7 +25,7 @@ async def get_hotels(
     location: str = "",
 ):
 
-    await asyncio.sleep(3)
+    await asyncio.sleep(1)
     free_hotels = await HotelDAO.find_all(location, date_from, date_to)
     hotels_list_adapter = TypeAdapter(list[SHotels])
     free_hotels_json = hotels_list_adapter.validate_python(free_hotels)

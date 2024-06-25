@@ -12,9 +12,11 @@ from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from redis import asyncio as aioredis
 from contextlib import asynccontextmanager
+from sqladmin import Admin
 
 sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
 
+from app.admin.views import BookingsAdmin, HotelsAdmin, RoomsAdmin, UsersAdmin
 from app.bookings.router import router as router_bookings
 from app.users.router import router as router_users
 from app.pages.router import router as router_pages
@@ -22,6 +24,8 @@ from app.hotels.router import router as router_hotels
 from app.hotels.rooms.router import router as router_rooms
 from app.images.router import router as router_images
 from app.config import settings
+from app.database import engine
+from app.admin.auth import authentication_backend
 
 
 @asynccontextmanager
@@ -38,7 +42,6 @@ async def lifespan(application: FastAPI):
 
 
 application = FastAPI(lifespan=lifespan)
-
 
 application.mount("/static", StaticFiles(directory="app/static"), "static")
 
@@ -66,6 +69,13 @@ application.add_middleware(
         "Authorization",
     ],
 )
+
+admin = Admin(application, engine, authentication_backend=authentication_backend)
+
+admin.add_view(UsersAdmin)
+admin.add_view(BookingsAdmin)
+admin.add_view(HotelsAdmin)
+admin.add_view(RoomsAdmin)
 
 
 class SHotel(BaseModel):
@@ -100,3 +110,5 @@ async def root():
 
 # Перед активацией окружения Set-ExecutionPolicy Bypass
 # uvicorn app.main:application --reload
+
+# redis

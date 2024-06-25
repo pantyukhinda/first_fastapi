@@ -41,14 +41,13 @@ async def add_booking(
     date_from: date,
     date_to: date,
     user: Users = Depends(get_current_user),
-) -> list[SBookingAdd]:
-
+    # ) -> list[SBookingAdd]:
+):
     booking = await BookingDAO.add(user.id, room_id, date_from, date_to)
     if not booking:
         raise RoomCannotBeBookedException
 
-    booking_dict_adapter = TypeAdapter(list[SBookingAdd])
-    booking_dict = booking_dict_adapter.validate_python(booking)
+    booking_dict = TypeAdapter(SBookingAdd).validate_python(booking).model_dump()
     send_booking_confirmation_email.delay(booking_dict, user.email)
     return booking_dict
 
